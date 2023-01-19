@@ -15,6 +15,10 @@ async def main():
         result = await task
         print(result)
 
+        # хьюстон, в книге проблемы, работает все иначе, вместо этой строки:
+        # <function delay at 0x10e8cf820> завершилась за 10 с
+        # получаю 10
+
 
 asyncio.run(main())
 
