@@ -25,3 +25,7 @@ async def main():
 
 asyncio.run(main())
 
+# Будущий объект готов? False
+# Будущий объект готов? True
+# 42
+
