@@ -1,16 +1,33 @@
 from collections import deque
+from time import time
+
+
+def sleep(delay=0):
+    d = time() + delay
+    while True:
+        yield
+        if d <= time():
+            break
+
+
+def coroutine():
+    result = 0
+    for number in range(10):
+        result += number
+        print('Now yielding!')
+        yield
+    return result
 
 
 def tick():
-    for _ in range(10):
-        print('Tick')
-        yield
+    result = yield from coroutine()
+    print(result)
 
 
 def tock():
     for _ in range(10):
         print('Tock')
-        yield
+        yield sleep(2)
 
 
 class Scheduler:
@@ -33,12 +50,13 @@ class Scheduler:
 class Task:
     def __init__(self, coroutine, scheduler):
         self.coroutine = coroutine
+        self.stack = []
         self.scheduler = scheduler
         self.schedule()
 
     def step(self):
         try:
-            next(self.coroutine)
+            self.coroutine.send(None)
         except StopIteration:
             pass
         else:
